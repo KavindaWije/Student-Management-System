@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student Records</title>
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/5.0.0/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="style1.css">
+</head>
+<body>
+    <div class="container">
+        <h1>Student Records</h1>
+        <div id="studentsTable"></div>
+        <button id="viewStudentBtn" class="btn btn-primary mt-3">View Student</button>
+
+        <!-- Add Student Form -->
+        <div id="addStudentForm" style="display: none;">
+            <h2>Add New Student</h2>
+            <form id="addStudentForm">
+                <div class="mb-3">
+                    <label for="sid" class="form-label">SID:</label>
+                    <input type="text" class="form-control" id="sid" required>
+                </div>
+                <div class="mb-3">
+                    <label for="name" class="form-label">Name:</label>
+                    <input type="text" class="form-control" id="name" required>
+                </div>
+                <div class="mb-3">
+                    <label for="age" class="form-label">Age:</label>
+                    <input type="text" class="form-control" id="age" required>
+                </div>
+                <div class="mb-3">
+                    <label for="address" class="form-label">Address:</label>
+                    <input type="text" class="form-control" id="address" required>
+                </div>
+                <div class="mb-3">
+                    <label for="cgpa" class="form-label">CGPA:</label>
+                    <input type="text" class="form-control" id="cgpa" required>
+                </div>
+                <button type="submit" class="btn btn-primary">Add Student</button>
+            </form>
+        </div>
+    </div>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            function fetchStudents() {
+                $.ajax({
+                    url: 'get_students.php',
+                    type: 'GET',
+                    success: function (data) {
+                        var tableHtml = '<table class="table"><thead><tr><th>SID</th><th>Name</th><th>Age</th><th>Address</th><th>CGPA</th><th>Actions</th></tr></thead><tbody>';
+                        data.forEach(function (student) {
+                            tableHtml += '<tr><td>' + student.sid + '</td><td>' + student.name + '</td><td>' + student.age + '</td><td>' + student.address + '</td><td>' + student.cgpa + '</td><td><a href="student_details.html?sid=' + student.sid + '">View Details</a></td></tr>';
+                        });
+                        tableHtml += '</tbody></table>';
+                        $('#studentsTable').html(tableHtml);
+                    }
+                });
+            }
+
+            fetchStudents(); // Initial fetch
+
+            setInterval(fetchStudents, 5000); // Auto-refresh every 5 seconds
+
+            $('#viewStudentBtn').click(function () {
+                window.location.href = 'student_details.html';
+            });
+
+            // Show Add Student Form
+            $('#addStudentForm').show();
+
+            // Handle Add Student Form Submission
+            $('#addStudentForm').submit(function (e) {
+                e.preventDefault();
+                var newStudent = {
+                    sid: $('#sid').val(),
+                    name: $('#name').val(),
+                    age: $('#age').val(),
+                    address: $('#address').val(),
+                    cgpa: $('#cgpa').val()
+                };
+                $.ajax({
+                    url: 'add_student.php',
+                    type: 'POST',
+                    data: newStudent,
+                    success: function (response) {
+                        alert(response);
+                        fetchStudents(); // Refresh the table after adding a new student
+                    }
+                });
+            });
+        });
+    </script>
+</body>
+</html>

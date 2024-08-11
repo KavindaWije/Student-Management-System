@@ -1,0 +1,37 @@
+[
+    {
+        "sid": 2,
+        "name": "John Does",
+        "age": "201",
+        "address": "123 Street, City",
+        "cgpa": "3.8"
+    },
+    {
+        "sid": 3,
+        "name": "Jane Smith",
+        "age": 21,
+        "address": "456 Avenue, Town",
+        "cgpa": 3.9
+    },
+    {
+        "sid": "4",
+        "name": "as",
+        "age": "12",
+        "address": "as",
+        "cgpa": "1"
+    },
+    {
+        "sid": "5",
+        "name": "as",
+        "age": "12",
+        "address": "as",
+        "cgpa": "1"
+    },
+    {
+        "sid": "9",
+        "name": "kavinda",
+        "age": "23",
+        "address": "asdasd",
+        "cgpa": "3.45"
+    }
+]
